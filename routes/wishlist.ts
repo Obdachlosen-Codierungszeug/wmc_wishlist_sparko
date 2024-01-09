@@ -28,7 +28,25 @@ router.get('/children', function(req, res, next) {
     res.send(children);
 });
 
+router.post('/:id/wishes', function(req, res, next) {
+    let wishData = JSON.parse(req.body.wish)
+
+    let id: number = maxId++;
+    let name: string = wishData.name;
+    let url: string = wishData.url;
+    let imageUrl: string = wishData.imageUrl;
+
+    let wish: IWish = {id, name, url, imageUrl};
+
+    let childId: number = parseInt(req.params.id);
+    let child: IChild = children.find(child => child.id === childId);
+    child.wishes.push(wish);
+
+    res.send(children);
+});
 router.post('/children', function(req, res, nexxt) {
+
+
     let childData = JSON.parse(req.body.child)
 
     let id: number = maxId++;

@@ -8,6 +8,18 @@ router.get('/', function (req, res, next) {
 router.get('/children', function (req, res, next) {
     res.send(children);
 });
+router.post('/:id/wishes', function (req, res, next) {
+    var wishData = JSON.parse(req.body.wish);
+    var id = maxId++;
+    var name = wishData.name;
+    var url = wishData.url;
+    var imageUrl = wishData.imageUrl;
+    var wish = { id: id, name: name, url: url, imageUrl: imageUrl };
+    var childId = parseInt(req.params.id);
+    var child = children.find(function (child) { return child.id === childId; });
+    child.wishes.push(wish);
+    res.send(children);
+});
 router.post('/children', function (req, res, nexxt) {
     var childData = JSON.parse(req.body.child);
     var id = maxId++;
